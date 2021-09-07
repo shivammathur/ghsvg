@@ -1,7 +1,7 @@
 {
   "name": "ghsvg",
-  "version": "0.0.1",
-  "description": "",
+  "version": "0.0.2",
+  "description": "Create an SVG of your GitHub Sponsors",
   "exports": "./lib/index.js",
   "type": "module",
   "bin": "./bin/ghsvg.js",

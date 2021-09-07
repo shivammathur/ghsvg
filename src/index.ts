@@ -12,7 +12,7 @@ export async function run() {
     ...(await gs.getOtherSponsors(ghsOptions.other)),
     ...(await gs.getGithubSponsors(ghsOptions))
   ];
-  fs.writeFileSync(ghsOptions.OutFile, await svg.createSVG(data, ghsOptions));
+  fs.writeFileSync(ghsOptions.outFile, await svg.createSVG(data, ghsOptions));
 }
 
 // call the run function
