@@ -81,13 +81,13 @@ svgImageWidth = 64
 ### Run
 
 ```bash
-ghsvg
+npx ghsvg
 ```
 
 In addition to using a configuration file, you can also specify the configuration options in the CLI. To see available options:
 
 ```bash
-ghsvg --help
+npx ghsvg --help
 ```
 
 ## License
