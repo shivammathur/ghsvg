@@ -1,0 +1,8 @@
+{
+  "username": "shivammathur",
+  "outFile": "sponsors.svg",
+  "range": [1, 12000],
+  "svgWidth": 1024,
+  "svgImageWidth": 64,
+  "otherSponsors": "other.txt"
+}

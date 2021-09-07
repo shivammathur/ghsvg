@@ -1,0 +1,51 @@
+{
+  "name": "ghsvg",
+  "version": "0.0.1",
+  "description": "",
+  "exports": "./lib/index.js",
+  "type": "module",
+  "bin": "./bin/ghsvg.js",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shivammathur/ghsvg.git"
+  },
+  "keywords": [
+    "github",
+    "sponsors",
+    "svg"
+  ],
+  "author": "shivammathur",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shivammathur/ghsvg/issues"
+  },
+  "homepage": "https://github.com/shivammathur/ghsvg#readme",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clear-cache": "rm -rf cache",
+    "lint": "eslint **/*.js --cache --fix",
+    "format": "prettier --write **/src/*.ts && git add .",
+    "format-check": "prettier --check **/*.js",
+    "test": "npm test"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.3.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "@iarna/toml": "^2.2.5",
+    "@types/node": "^16.7.13",
+    "axios": "^0.21.4",
+    "commander": "^8.1.0",
+    "cosmiconfig": "^7.0.1",
+    "dotenv": "^10.0.0",
+    "json5": "^2.2.0"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "esModuleInterop": true,
+    "lib": [
+      "ESNEXT"
+    ],
+    "module": "ESNEXT",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "./lib",
+    "removeComments": true,
+    "rootDir": "./src",
+    "sourceMap": true,
+    "strict": true,
+    "target": "ES2015",
+    "typeRoots": [
+      "node_modules/@types",
+      "lib"
+    ]
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": ["lib", "node_modules"]
+}
