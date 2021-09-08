@@ -27,7 +27,7 @@
     "clear-cache": "rm -rf cache",
     "lint": "eslint **/*.ts --cache --fix",
     "format": "prettier --write **/src/*.ts && git add .",
-    "format-check": "prettier --check **/*.js"
+    "format-check": "prettier --check **/src/*.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^4.31.0",
