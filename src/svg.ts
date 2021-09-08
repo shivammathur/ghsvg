@@ -27,39 +27,40 @@ export async function createSVG(
     fs.mkdirSync(cacheDir);
   }
   await Promise.all(
-    data.map(
-      async (
-        {login, avatarUrl, url}: Record<string, string>,
-        index: number
-      ) => {
-        const imageX = index % rows;
-        const imageY = Math.floor(index / rows);
-        const locationX = imageX * (imageWidth + imageSpacing);
-        const locationY = imageY * (imageWidth + imageSpacing);
-        const avatarCache = path.join(
-          cacheDir,
-          avatarUrl.split('/u/')[1].split('?')[0] + '.' + imageFormat
-        );
-        const avatar = await getAvatar(avatarUrl, avatarCache, imageFormat);
-        defs.push(`    <clipPath id="clip-${index}">
+    data.map(async (sponsor: Record<string, string>, index: number) => {
+      const imageX = index % rows;
+      const imageY = Math.floor(index / rows);
+      const locationX = imageX * (imageWidth + imageSpacing);
+      const locationY = imageY * (imageWidth + imageSpacing);
+      const avatarCache = path.join(
+        cacheDir,
+        sponsor.avatarUrl.split('/u/')[1].split('?')[0] + '.' + imageFormat
+      );
+      const avatar = await getAvatar(
+        sponsor.avatarUrl,
+        avatarCache,
+        imageFormat
+      );
+      defs.push(`    <clipPath id="clip-${index}">
       <circle cx="${locationX + radius}" cy="${
-          locationY + radius
-        }" r="${radius}"/>
+        locationY + radius
+      }" r="${radius}"/>
     </clipPath>`);
-        images.push(
-          `  <a xlink:href="${url}" class="sponsor-svg" target="_blank" id="${login}">
+      images.push(
+        `  <a xlink:href="${
+          sponsor.htmlUrl || sponsor.url
+        }" class="sponsor-svg" target="_blank" id="${sponsor.login}">
     <image clip-path="url(#clip-${index})" x="${locationX}" y="${locationY}" width="${imageWidth}" height="${imageWidth}" xlink:href="${avatar}"/>
   </a>`
+      );
+      if (!ghsOptions.quiet) {
+        process.stdout.write(
+          `Fetching sponsors avatars ${Math.floor(
+            (++count / data.length) * 100
+          )} % complete... \r`
         );
-        if (!ghsOptions.quiet) {
-          process.stdout.write(
-            `Fetching sponsors avatars ${Math.floor(
-              (++count / data.length) * 100
-            )} % complete... \r`
-          );
-        }
       }
-    )
+    })
   );
 
   return `<?xml version="1.0" encoding="utf-8"?>
