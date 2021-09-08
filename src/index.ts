@@ -6,10 +6,12 @@ import * as svg from './svg.js';
 
 dotenv.config();
 
-export async function run() {
-  const ghsOptions: any = await options.getOptions(process.argv);
+export async function run(): Promise<void> {
+  const ghsOptions: Record<string, any> = await options.getOptions(
+    process.argv
+  );
   const data = [
-    ...(await gs.getOtherSponsors(ghsOptions.other)),
+    ...(await gs.getOtherSponsors(ghsOptions.otherSponsors)),
     ...(await gs.getGithubSponsors(ghsOptions))
   ];
   fs.writeFileSync(ghsOptions.outFile, await svg.createSVG(data, ghsOptions));

@@ -1,4 +1,5 @@
 import * as axios from 'axios';
+import * as camelcaseKeys from 'camelcase-keys';
 import * as fs from 'fs';
 
 export async function request(
@@ -61,7 +62,9 @@ export async function getFields(type: string): Promise<Record<string, any>[]> {
   return response.data.__type.fields;
 }
 
-export async function getAccountFragment(avatar_size?: number) {
+export async function getAccountFragment(
+  avatar_size?: number
+): Promise<string> {
   const userFields = (await getFields('User'))
     .map((field: Record<string, any>) => {
       if (avatar_size && field.name === 'avatarUrl') {
@@ -96,8 +99,8 @@ export async function getGithubSponsorsHelper(
   ghsOptions: Record<string, any>,
   results: any[] = [],
   cursor: undefined | string = undefined
-) {
-  let args = ['first: 100'];
+): Promise<Record<string, any>[]> {
+  const args = ['first: 100'];
   if (cursor) {
     args.push(`after:"${cursor}"`);
   }
@@ -146,15 +149,19 @@ export async function getGithubSponsorsHelper(
           sponsorRecord.tier.monthlyPriceInDollars < minimum ||
           sponsorRecord.tier.monthlyPriceInDollars > maximum
         ) {
-          return;
+          return [];
         }
       }
       return sponsorRecord.sponsorEntity;
     })
     .filter(Boolean);
   results.push(...sponsorNodes);
-  if(!ghsOptions.quiet) {
-    process.stdout.write(`Fetching sponsors ${Math.floor(results.length / sponsorData.totalCount * 100)} % complete... \r`);
+  if (!ghsOptions.quiet) {
+    process.stdout.write(
+      `Fetching sponsors ${Math.floor(
+        (results.length / sponsorData.totalCount) * 100
+      )} % complete... \r`
+    );
   }
   if (sponsorData['pageInfo']['hasNextPage']) {
     await getGithubSponsorsHelper(
@@ -166,7 +173,9 @@ export async function getGithubSponsorsHelper(
   return results;
 }
 
-export async function getGithubSponsorTiers(username: string) {
+export async function getGithubSponsorTiers(
+  username: string
+): Promise<Record<string, any>[]> {
   const tier_fields = await getFields('SponsorsTier');
   const response = await request(
     'post',
@@ -188,7 +197,9 @@ export async function getGithubSponsorTiers(username: string) {
   return response.data.user.sponsorsListing.tiers.nodes;
 }
 
-export async function getGithubSponsors(ghsOptions: Record<string, any>) {
+export async function getGithubSponsors(
+  ghsOptions: Record<string, any>
+): Promise<Record<string, any>[]> {
   ghsOptions.nodeType = await getUserType(ghsOptions.username);
   ghsOptions.accountFragment = await getAccountFragment(
     ghsOptions.svgImageWidth
@@ -197,7 +208,9 @@ export async function getGithubSponsors(ghsOptions: Record<string, any>) {
 }
 
 export async function getUser(username: string): Promise<Record<string, any>> {
-  return await request('get', `https://api.github.com/users/${username}`);
+  return camelcaseKeys.default(
+    await request('get', `https://api.github.com/users/${username}`)
+  );
 }
 
 export async function getOtherSponsors(

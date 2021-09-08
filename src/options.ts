@@ -30,7 +30,7 @@ program
 export async function getRange(
   type: string,
   cliOpts: Record<string, any>,
-  configOpts: any
+  configOpts: Record<string, any>
 ): Promise<string | number[]> {
   let range: any = 'all';
   if (cliOpts[type] && cliOpts[type] != 'all') {
@@ -43,7 +43,7 @@ export async function getRange(
       .map((opt: string) => parseInt(opt));
   } else if (configOpts[type] && configOpts[type] != 'all') {
     range = Array.isArray(configOpts[type])
-      ? configOpts[type].map((opt: any) => parseInt(opt))
+      ? configOpts[type].map((opt: string) => parseInt(opt))
       : [parseInt(configOpts[type]), parseInt(configOpts[type])];
   } else if (type != 'range') {
     range = await getRange('range', cliOpts, configOpts);
@@ -63,10 +63,10 @@ export async function getRange(
   return range;
 }
 
-export async function getOptions(args: string[]): Promise<null | Record<string, any>> {
+export async function getOptions(args: string[]): Promise<Record<string, any>> {
   program.parse(args);
 
-  const configOpts: any = await config.getConfig();
+  const configOpts: Record<string, any> = await config.getConfig();
   const cliOpts = program.opts();
 
   return {
