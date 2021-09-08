@@ -25,6 +25,11 @@ program
     '-os, --other-sponsors [file]',
     'specify a file with sponsors other than GitHub Sponsors'
   )
+  .option('-sw, --svg-width [svgWidth]', 'width of the svg')
+  .option(
+    '-siw, --svg-image-width [svgImageWidth]',
+    'width of each image in the svg'
+  )
   .option('-o, --out-file [outFile]', 'Output svg file.');
 
 export async function getRange(
