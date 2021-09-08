@@ -1,5 +1,7 @@
 # GHSVG
 
+[![CI](https://github.com/shivammathur/ghsvg/actions/workflows/ci.yaml/badge.svg)](https://github.com/shivammathur/ghsvg/actions/workflows/ci.yaml)
+
 Create an SVG of your GitHub Sponsors
 
 ## Install
