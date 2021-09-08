@@ -1,0 +1,42 @@
+name: CI
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    paths-ignore:
+      - '**.md'
+jobs:
+  run:
+    name: Run
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, windows-latest, macos-latest]
+        node: [12, 14, 15, 16]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Prettier Format Check
+        run: npm run format-check
+
+      - name: ESLint Check
+        run: npm run lint
+
+      - name: Generate Sponsors
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+        run: |
+          echo "${{ github.repository_owner }}" > other.txt
+          node lib/index.js -u shivammathur -os other.txt
+          cat sponsors.svg
