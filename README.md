@@ -24,9 +24,14 @@ Configuration file can be
   - A `.ghsrc.js`, `.ghsrc.cjs` or `.ghsrc.mjs` file that exports an object.
   - A `.ghsrc.toml` file.
 
-### Configuration Options
+### Configuration
+
+#### Required
 
 - `username`: The GitHub user or organization for fetching the sponsors.
+
+#### Optional
+
 - `outFile`: The output SVG file.
 - `otherSponsors`: A newline separated file with sponsors from sources other than GitHub Sponsors.
 - `range`: The dollar amount range of sponsorships you want to include.
@@ -35,6 +40,7 @@ Configuration file can be
 - `customAmountRange`: Specify a different range for custom amount sponsorships you want to include.
 - `svgWidth`: The total width of the SVG (in px).
 - `svgImageWidth`: The width of each image in the SVG (in px).
+- `svgImageSpace`: The space between each image in the SVG (in px).
 - `quiet`: No Output
 
 **Note:** Since the sponsorship amount is not public, if you are creating the SVG for an account other than yours, the ranges will have no effect and all sponsors will be included.

@@ -31,6 +31,11 @@ program
     'width of each image in the svg',
     parseFloat
   )
+  .option(
+    '-sis, --svg-image-space [svgImageSpace]',
+    'space between each image in the svg',
+    parseFloat
+  )
   .option('-o, --out-file [outFile]', 'Output svg file.');
 
 export async function getRange(
@@ -75,6 +80,13 @@ export async function getOptions(args: string[]): Promise<Record<string, any>> {
   const configOpts: Record<string, any> = await config.getConfig();
   const cliOpts = program.opts();
 
+  const svgImageWidth: number =
+    cliOpts.svgImageWidth || configOpts.svgImageWidth || 64;
+  const svgImageSpace: number =
+    cliOpts.svgImageSpace ||
+    configOpts.svgImageSpace ||
+    Math.floor(svgImageWidth / 10);
+
   return {
     username: cliOpts.username || configOpts.username,
     range: await getRange('range', cliOpts, configOpts),
@@ -82,7 +94,8 @@ export async function getOptions(args: string[]): Promise<Record<string, any>> {
     oneTimeTiersRange: await getRange('oneTimeTiersRange', cliOpts, configOpts),
     customAmountRange: await getRange('customAmountRange', cliOpts, configOpts),
     svgWidth: cliOpts.svgWidth || configOpts.svgWidth || 1024,
-    svgImageWidth: cliOpts.svgImageWidth || configOpts.svgImageWidth || 64,
+    svgImageWidth: svgImageWidth,
+    svgImageSpace: svgImageSpace,
     outFile: cliOpts.outFile || configOpts.outFile || 'sponsors.svg',
     otherSponsors: cliOpts.otherSponsors || configOpts.otherSponsors,
     quiet: cliOpts.quiet

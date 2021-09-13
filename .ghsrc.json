@@ -4,5 +4,6 @@
   "range": [1, 12000],
   "svgWidth": 1024,
   "svgImageWidth": 64,
+  "svgImageSpace": 10,
   "otherSponsors": "other.txt"
 }

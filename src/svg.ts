@@ -16,7 +16,7 @@ export async function createSVG(
   const imageFormat = 'png';
   const imageWidth: number = ghsOptions.svgImageWidth;
   const svgWidth: number = ghsOptions.svgWidth;
-  const imageSpacing: number = Math.floor(imageWidth / 10);
+  const imageSpacing: number = ghsOptions.svgImageSpace;
   const rows: number = Math.floor(svgWidth / (imageWidth + imageSpacing));
   const radius: number = Math.floor(imageWidth / 2);
   const defs: string[] = [];
