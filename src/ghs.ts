@@ -149,7 +149,7 @@ export async function getGithubSponsorsHelper(
           sponsorRecord.tier.monthlyPriceInDollars < minimum ||
           sponsorRecord.tier.monthlyPriceInDollars > maximum
         ) {
-          return [];
+          return false;
         }
       }
       return sponsorRecord.sponsorEntity;
