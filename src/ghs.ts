@@ -79,7 +79,11 @@ export async function getAccountFragment(
     .map((field: Record<string, any>) => {
       if (avatar_size && field.name === 'avatarUrl') {
         return `avatarUrl(size: ${avatar_size})`;
-      } else if (field.args.length || field.type.ofType?.kind !== 'SCALAR') {
+      } else if (
+        field.args.length ||
+        field.type.ofType?.kind !== 'SCALAR' ||
+        field.name === 'membersCanForkPrivateRepositories'
+      ) {
         return;
       }
       return field.name;
