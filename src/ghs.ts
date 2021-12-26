@@ -142,6 +142,9 @@ export async function getGithubSponsorsHelper(
   const sponsorData: Record<string, any> =
     response.data[ghsOptions.nodeType].sponsorshipsAsMaintainer;
   const sponsorNodes: Record<string, any>[] = sponsorData.nodes
+    .sort((a: Record<string, any>, b: Record<string, any>) => {
+      return b?.tier?.monthlyPriceInDollars - a?.tier?.monthlyPriceInDollars;
+    })
     .map((sponsorRecord: Record<string, any>) => {
       if (sponsorRecord.tier) {
         const [minimum, maximum]: number[] = sponsorRecord.tier.isOneTime

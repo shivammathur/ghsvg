@@ -11,8 +11,8 @@ export async function run(): Promise<void> {
     process.argv
   );
   const data = [
-    ...(await gs.getOtherSponsors(ghsOptions.otherSponsors)),
-    ...(await gs.getGithubSponsors(ghsOptions))
+    ...(await gs.getGithubSponsors(ghsOptions)),
+    ...(await gs.getOtherSponsors(ghsOptions.otherSponsors))
   ];
   fs.writeFileSync(ghsOptions.outFile, await svg.createSVG(data, ghsOptions));
 }
