@@ -4,6 +4,8 @@
 
 Create an SVG of your GitHub Sponsors
 
+<a href="https://github.com/sponsors/shivammathur"><img src="https://setup-php.com/sponsors.svg?" alt="Sponsor shivammathur"></a>
+
 ## Install
 ```bash
 npm install --save-dev ghsvg
