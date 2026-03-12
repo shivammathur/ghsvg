@@ -14,13 +14,13 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest]
-        node: [12, 14, 15, 16]
+        node: [18, 20, 22, 24]
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node }}
 
@@ -35,7 +35,7 @@ jobs:
 
       - name: Generate Sponsors
         env:
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "${{ github.repository_owner }}" > other.txt
           node lib/index.js -u shivammathur -os other.txt
