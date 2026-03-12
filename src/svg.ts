@@ -17,7 +17,8 @@ export async function createSVG(
   const imageWidth: number = ghsOptions.svgImageWidth;
   const svgWidth: number = ghsOptions.svgWidth;
   const imageSpacing: number = ghsOptions.svgImageSpace;
-  const rows: number = Math.floor(svgWidth / (imageWidth + imageSpacing));
+  const tileSize: number = imageWidth + imageSpacing;
+  const rows: number = Math.max(1, Math.floor(svgWidth / tileSize));
   const radius: number = Math.floor(imageWidth / 2);
   const defs: string[] = [];
   const images: string[] = [];
@@ -30,8 +31,8 @@ export async function createSVG(
     data.map(async (sponsor: Record<string, string>, index: number) => {
       const imageX = index % rows;
       const imageY = Math.floor(index / rows);
-      const locationX = imageX * (imageWidth + imageSpacing);
-      const locationY = imageY * (imageWidth + imageSpacing);
+      const locationX = imageX * tileSize;
+      const locationY = imageY * tileSize;
       const avatarCache = path.join(
         cacheDir,
         sponsor.avatarUrl.split('/u/')[1].split('?')[0] + '.' + imageFormat
@@ -65,7 +66,7 @@ export async function createSVG(
 
   return `<?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${svgWidth}" height="${
-    Math.ceil(data.length / rows) * (imageWidth + imageSpacing)
+    Math.ceil(data.length / rows) * tileSize
   }">
   <defs>
 ${defs.sort(compareDeps).join('\n')}

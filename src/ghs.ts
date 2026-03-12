@@ -18,8 +18,13 @@ export async function request(
         ? await axios.default.get(url, config)
         : await axios.default.post(url, {query: query}, config);
 
-    if (response.data.error) {
-      console.error(`API failure: ${response.data.error}`);
+    const errors: Record<string, any>[] = response.data.errors || [];
+    if (response.data.error || errors.length) {
+      const messages = [
+        response.data.error,
+        ...errors.map((error: Record<string, any>) => error.message)
+      ].filter(Boolean);
+      console.error(`API failure: ${messages.join('; ')}`);
       process.exit(1);
     }
     return response.data;
@@ -65,36 +70,22 @@ export async function getFields(type: string): Promise<Record<string, any>[]> {
 export async function getAccountFragment(
   avatar_size?: number
 ): Promise<string> {
-  const userFields = (await getFields('User'))
-    .map((field: Record<string, any>) => {
-      if (avatar_size && field.name === 'avatarUrl') {
-        return `avatarUrl(size: ${avatar_size})`;
-      } else if (field.args.length || field.type.ofType?.kind !== 'SCALAR') {
-        return;
-      }
-      return field.name;
-    })
-    .filter(Boolean);
-  const organizationFields = (await getFields('Organization'))
-    .map((field: Record<string, any>) => {
-      if (avatar_size && field.name === 'avatarUrl') {
-        return `avatarUrl(size: ${avatar_size})`;
-      } else if (
-        field.args.length ||
-        field.type.ofType?.kind !== 'SCALAR' ||
-        field.name === 'membersCanForkPrivateRepositories'
-      ) {
-        return;
-      }
-      return field.name;
-    })
-    .filter(Boolean);
+  const avatarField = avatar_size
+    ? `avatarUrl(size: ${avatar_size})`
+    : 'avatarUrl';
+
+  // Keep this fragment intentionally small so organization sponsors do not
+  // disappear when GitHub adds restricted fields to the schema.
   return `
     ... on User {
-      ${userFields.join('\n')}
+      login
+      url
+      ${avatarField}
     }
     ... on Organization {
-      ${organizationFields.join('\n')}
+      login
+      url
+      ${avatarField}
     }
     `;
 }
