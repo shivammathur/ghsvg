@@ -4,7 +4,7 @@ import * as options from './options.js';
 import * as gs from './ghs.js';
 import * as svg from './svg.js';
 
-dotenv.config();
+dotenv.config({quiet: true});
 
 export async function run(): Promise<void> {
   const ghsOptions: Record<string, any> = await options.getOptions(

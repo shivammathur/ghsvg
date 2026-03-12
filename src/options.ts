@@ -1,6 +1,15 @@
 import * as commander from 'commander';
 import * as config from './config.js';
 const program = new commander.Command();
+const LEGACY_FLAG_MAP: Record<string, string> = {
+  '-mr': '--mr',
+  '-or': '--or',
+  '-cr': '--cr',
+  '-os': '--os',
+  '-sw': '--sw',
+  '-siw': '--siw',
+  '-sis': '--sis'
+};
 
 program
   .option('-u, --username [username]', 'username to fetch the sponsors')
@@ -37,6 +46,25 @@ program
     parseFloat
   )
   .option('-o, --out-file [outFile]', 'Output svg file.');
+
+export function normalizeLegacyArgs(args: string[]): string[] {
+  return args.map(arg => {
+    if (LEGACY_FLAG_MAP[arg]) {
+      return LEGACY_FLAG_MAP[arg];
+    }
+
+    const separatorIndex = arg.indexOf('=');
+    if (separatorIndex !== -1) {
+      const flag = arg.slice(0, separatorIndex);
+      const value = arg.slice(separatorIndex + 1);
+      if (LEGACY_FLAG_MAP[flag]) {
+        return `${LEGACY_FLAG_MAP[flag]}=${value}`;
+      }
+    }
+
+    return arg;
+  });
+}
 
 export async function getRange(
   type: string,
@@ -75,7 +103,7 @@ export async function getRange(
 }
 
 export async function getOptions(args: string[]): Promise<Record<string, any>> {
-  program.parse(args);
+  program.parse(normalizeLegacyArgs(args), {from: 'node'});
 
   const configOpts: Record<string, any> = await config.getConfig();
   const cliOpts = program.opts();
