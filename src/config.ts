@@ -1,4 +1,5 @@
 import {dirname, join, resolve} from 'path';
+import {createRequire} from 'module';
 import {pathToFileURL} from 'url';
 import {cosmiconfig} from 'cosmiconfig';
 import type {CosmiconfigResult} from 'cosmiconfig/dist/types';
@@ -15,6 +16,7 @@ const CONFIG_FILENAMES: string[] = [
   '.ghsrc.yml',
   '.ghsrc.toml'
 ];
+const requireModule = createRequire(import.meta.url);
 
 async function loadMjs(filePath: string) {
   if (!importDefault) {
@@ -55,7 +57,7 @@ export async function getConfig(): Promise<any | null> {
         if (typeof result.config === 'string') {
           const dir = dirname(result.filepath);
           const modulePath = resolve(join(dir, result.config));
-          result.config = require(modulePath);
+          result.config = requireModule(modulePath);
         }
 
         if (typeof result.config !== 'object') {

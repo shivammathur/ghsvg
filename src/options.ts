@@ -10,29 +10,29 @@ program
     'specify a range in dollar amounts for tiers'
   )
   .option(
-    '-mr, --monthly-tiers-range [none|minimum-maximum|all]',
+    '--mr, --monthly-tiers-range [none|minimum-maximum|all]',
     'specify a different range for monthly sponsor tiers'
   )
   .option(
-    '-or, --one-time-tiers-range [none|minimum-maximum|all]',
+    '--or, --one-time-tiers-range [none|minimum-maximum|all]',
     'specify a different range for one-time sponsors tiers'
   )
   .option(
-    '-cr, --custom-amount-range [none|minimum-maximum|all]',
+    '--cr, --custom-amount-range [none|minimum-maximum|all]',
     'specify a different range for custom amounts'
   )
   .option(
-    '-os, --other-sponsors [file]',
+    '--os, --other-sponsors [file]',
     'specify a file with sponsors other than GitHub Sponsors'
   )
-  .option('-sw, --svg-width [svgWidth]', 'width of the svg', parseFloat)
+  .option('--sw, --svg-width [svgWidth]', 'width of the svg', parseFloat)
   .option(
-    '-siw, --svg-image-width [svgImageWidth]',
+    '--siw, --svg-image-width [svgImageWidth]',
     'width of each image in the svg',
     parseFloat
   )
   .option(
-    '-sis, --svg-image-space [svgImageSpace]',
+    '--sis, --svg-image-space [svgImageSpace]',
     'space between each image in the svg',
     parseFloat
   )

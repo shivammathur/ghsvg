@@ -28,7 +28,7 @@ export async function request(
       process.exit(1);
     }
     return response.data;
-  } catch (error) {
+  } catch {
     console.error(`API failure: ${url}`);
     process.exit(1);
   }
@@ -141,8 +141,8 @@ export async function getGithubSponsorsHelper(
         const [minimum, maximum]: number[] = sponsorRecord.tier.isOneTime
           ? ghsOptions.oneTimeTiersRange
           : sponsorRecord.tier.isCustomAmount
-          ? ghsOptions.customAmountRange
-          : ghsOptions.monthlyTiersRange;
+            ? ghsOptions.customAmountRange
+            : ghsOptions.monthlyTiersRange;
         if (
           sponsorRecord.tier.monthlyPriceInDollars < minimum ||
           sponsorRecord.tier.monthlyPriceInDollars > maximum
